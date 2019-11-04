@@ -2,9 +2,11 @@
   <div :class="classObj" class="app-wrapper">
     <!-- <div v-if="device==='mobile' && sidebar.opened" class="drawer-bg" @click="handleClickOutside" /> -->
     <!-- <sidebar class="sidebar-container" /> -->
+    <Aside class="sidebar-container" />
     <div class="main-container">
       <div :class="{'fixed-header':fixedHeader}">
         <!-- <navbar /> -->
+        <Header />
       </div>
       <!-- <app-main /> -->
       <nuxt />
@@ -13,7 +15,13 @@
 </template>
 
 <script>
+import Header from '~/components/common/Header.vue'
+import Aside from '~/components/common/Aside.vue'
 export default {
+  components: {
+    Header,
+    Aside
+  },
   // mixins: [ResizeMixin],
   computed: {
     sidebar () {

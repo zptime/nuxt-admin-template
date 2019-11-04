@@ -37,6 +37,9 @@ styleResources: {
 - pages/login/index.vue 页面：登录页面
 - layouts/base.vue：基础框架页，不带任何组件的框架页
 - layouts/default.vue：主要框架页，带侧边栏和顶栏的框架页
+  - store文件夹：vuex配置
+  - components/common/Header.vue：顶栏组件
+  - components/common/Aside.vue：侧边栏组件
 
 ```js
 // store/index.js
