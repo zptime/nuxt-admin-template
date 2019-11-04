@@ -3,11 +3,7 @@
     <h2>后台登录系统</h2>
     <el-form ref="ruleForm" :model="ruleForm" :rules="rules" class="demo-ruleForm">
       <el-form-item prop="username">
-        <el-input
-          v-model="ruleForm.username"
-          placeholder="请输入用户名"
-          clearable
-        >
+        <el-input v-model="ruleForm.username" placeholder="请输入用户名" clearable>
           <i slot="prefix" class="el-input__icon el-icon-user" />
         </el-input>
       </el-form-item>
@@ -32,6 +28,7 @@
 <script>
 export default {
   name: 'Login',
+  layout: 'base',
   data () {
     return {
       ruleForm: {
@@ -52,20 +49,14 @@ export default {
     submit (ruleForm) {
       this.$refs[ruleForm].validate((valid) => {
         if (valid) {
-          this.$axios.post('/api/login', {
-            username: this.ruleForm.username,
-            password: this.ruleForm.password
-          }).then((res) => {
-            // 判断是否请求成功
+          this.$store.dispatch('login', this.ruleForm).then((res) => {
             if (res.code === 0) {
-              // 将服务端的token存入cookie当中
-              // Cookie.set('token', res.data.token)
-              this.$router.push({
-                path: '/'
-              })
+              this.$router.push({ path: '/' })
             } else {
               this.$message.error(res.msg)
             }
+          }).catch((error) => {
+            this.$message.error(error)
           })
         } else {
           return false

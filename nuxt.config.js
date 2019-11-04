@@ -28,7 +28,7 @@ module.exports = {
   ],
   styleResources: {
     // 全局混入scss
-    scss: '~assets/css/mixins.scss'
+    // scss: ['~assets/css/mixins.scss', '~variables.scss']
   },
   /*
   ** Plugins to load before mounting the App

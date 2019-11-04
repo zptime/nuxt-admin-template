@@ -34,4 +34,11 @@ styleResources: {
 
 ## 页面编写
 
-- login/index.vue 页面：登录页面
+- pages/login/index.vue 页面：登录页面
+- layouts/base.vue：基础框架页，不带任何组件的框架页
+- layouts/default.vue：主要框架页，带侧边栏和顶栏的框架页
+
+```js
+// store/index.js
+npm install js-cookie
+```

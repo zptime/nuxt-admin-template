@@ -1,55 +1,91 @@
 <template>
-  <div>
-    <nuxt />
+  <div :class="classObj" class="app-wrapper">
+    <!-- <div v-if="device==='mobile' && sidebar.opened" class="drawer-bg" @click="handleClickOutside" /> -->
+    <!-- <sidebar class="sidebar-container" /> -->
+    <div class="main-container">
+      <div :class="{'fixed-header':fixedHeader}">
+        <!-- <navbar /> -->
+      </div>
+      <!-- <app-main /> -->
+      <nuxt />
+    </div>
   </div>
 </template>
 
-<style>
-html {
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
-  font-size: 16px;
-  word-spacing: 1px;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
+<script>
+export default {
+  // mixins: [ResizeMixin],
+  computed: {
+    sidebar () {
+      return this.$store.state.app.sidebar
+    },
+    device () {
+      return this.$store.state.app.device
+    },
+    fixedHeader () {
+      return this.$store.state.settings.fixedHeader
+    },
+    classObj () {
+      return {
+        hideSidebar: !this.sidebar.opened,
+        openSidebar: this.sidebar.opened,
+        withoutAnimation: this.sidebar.withoutAnimation,
+        mobile: this.device === 'mobile'
+      }
+    }
+  },
+  mounted () {
+    console.log(this.sidebar)
+    console.log(this.device)
+    console.log(this.fixedHeader)
+    console.log(this.classObj)
+  },
+  methods: {
+    handleClickOutside () {
+      this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
+    }
+  }
 }
+</script>
 
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-  margin: 0;
-}
+<style lang="scss" scoped>
+  @import "~assets/css/mixin.scss";
+  @import "~assets/css/variables.scss";
 
-.button--green {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  color: #3b8070;
-  text-decoration: none;
-  padding: 10px 30px;
-}
+  .app-wrapper {
+    @include clearfix;
+    position: relative;
+    height: 100%;
+    width: 100%;
+    &.mobile.openSidebar{
+      position: fixed;
+      top: 0;
+    }
+  }
+  .drawer-bg {
+    background: #000;
+    opacity: 0.3;
+    width: 100%;
+    top: 0;
+    height: 100%;
+    position: absolute;
+    z-index: 999;
+  }
 
-.button--green:hover {
-  color: #fff;
-  background-color: #3b8070;
-}
+  .fixed-header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 9;
+    width: calc(100% - #{$sideBarWidth});
+    transition: width 0.28s;
+  }
 
-.button--grey {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #35495e;
-  color: #35495e;
-  text-decoration: none;
-  padding: 10px 30px;
-  margin-left: 15px;
-}
+  .hideSidebar .fixed-header {
+    width: calc(100% - 54px)
+  }
 
-.button--grey:hover {
-  color: #fff;
-  background-color: #35495e;
-}
+  .mobile .fixed-header {
+    width: 100%;
+  }
 </style>
