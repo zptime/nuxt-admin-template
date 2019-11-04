@@ -1,20 +1,20 @@
 [
   {
     "id": 1,
-    "name": "mahesh",
-    "password": "password1",
-    "profession": "teacher"
+    "name": "admin",
+    "password": "123456",
+    "profession": "管理员"
   },
   {
     "id": 2,
-    "name": "suresh",
-    "password": "password2",
-    "profession": "librarian"
+    "name": "root",
+    "password": "123456",
+    "profession": "超级管理员"
   },
   {
     "id": 3,
-    "name": "ramesh",
-    "password": "password3",
-    "profession": "clerk"
+    "name": "test",
+    "password": "123456",
+    "profession": "普通用户"
   }
 ]

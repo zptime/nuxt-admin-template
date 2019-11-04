@@ -24,7 +24,12 @@ module.exports = {
   */
   css: [
     'element-ui/lib/theme-chalk/index.css'
+    // { scss: '~assets/css/mixins.scss', lang: 'scss' }
   ],
+  styleResources: {
+    // 全局混入scss
+    scss: '~assets/css/mixins.scss'
+  },
   /*
   ** Plugins to load before mounting the App
   */

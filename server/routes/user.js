@@ -8,9 +8,11 @@ router.prefix('/api')
 // 用户登录
 router.post('/login', (ctx) => {
   const { username, password } = ctx.request.body
-  const valid = username.length && password === '123'
-
-  if (!valid) {
+  const data = fs.readFileSync(path.join(__dirname, '../mock/', 'user.json'), 'utf8')
+  const valid = JSON.parse(data).filter((item) => {
+    return item.name === username && item.password === password
+  })
+  if (!valid || valid.length === 0) {
     ctx.body = {
       code: -1,
       data: null,
@@ -19,10 +21,7 @@ router.post('/login', (ctx) => {
   } else {
     ctx.body = {
       code: 0,
-      data: {
-        username,
-        password
-      },
+      data: null,
       msg: '登录成功'
     }
   }
