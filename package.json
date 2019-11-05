@@ -32,7 +32,6 @@
     "eslint-plugin-nuxt": ">=0.4.2",
     "node-sass": "^4.13.0",
     "nodemon": "^1.18.9",
-    "sass-loader": "^8.0.0",
-    "scss-loader": "0.0.1"
+    "sass-loader": "^8.0.0"
   }
 }

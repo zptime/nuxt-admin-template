@@ -22,13 +22,27 @@
 
 ```js
 // 安装
-npm i node-sass sass-loader scss-loader --save-dev
+npm node-sass sass-loader --save-dev
 npm install @nuxtjs/style-resources
 
 // 配置 nuxt.config.js
-styleResources: {
-  // 全局混入scss
-  scss: '~assets/css/mixins.scss'
+module.exports = {
+  css: [
+    // 配置全局css
+    '@/assets/css/main.scss'
+  ],
+  modules: [
+    // 添加对应的模块
+    '@nuxtjs/style-resources'
+  ],
+  styleResources: {
+    // 配置全局 scss 变量 和 mixin
+    // 注意：styleResources 配置的资源路径不能使用 ~ 和 @ ，需要使用相对或绝对路径。
+    scss: [
+      './assets/style/variables.scss', // 全局 scss 变量
+      './assets/style/mixins.scss' // 全局 scss 混合
+    ]
+  }
 }
 ```
 
@@ -37,9 +51,13 @@ styleResources: {
 - pages/login/index.vue 页面：登录页面
 - layouts/base.vue：基础框架页，不带任何组件的框架页
 - layouts/default.vue：主要框架页，带侧边栏和顶栏的框架页
-  - store文件夹：vuex配置
+  - store：vuex配置文件夹
+  - assets/css：样式文件夹
   - components/common/Header.vue：顶栏组件
+    - components/common/Breadcrumb.vue：面包屑组件
+    - components/common/Dropdown.vue：下拉菜单组件
   - components/common/Aside.vue：侧边栏组件
+    - components/common/Logo.vue：Logo组件
 
 ```js
 // store/index.js
