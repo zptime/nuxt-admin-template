@@ -15,12 +15,13 @@
 <script>
 import Header from '~/components/common/Header.vue'
 import Aside from '~/components/common/Aside.vue'
+import ResizeMixin from '~/plugins/resizeHandler.js'
 export default {
   components: {
     Header,
     Aside
   },
-  // mixins: [ResizeMixin],
+  mixins: [ResizeMixin],
   computed: {
     sidebar () {
       return this.$store.state.app.sidebar
