@@ -1,4 +1,4 @@
-# nuxt-element-admin
+# nuxt-admin-template
 
 > 基于 Nuxt.js 服务渲染框架搭建的后台管理系统，UI 框架选择的是[Element UI](https://element.eleme.cn/#/zh-CN)
 

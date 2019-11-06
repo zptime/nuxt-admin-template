@@ -3,7 +3,7 @@
     <div>
       <logo />
       <h1 class="title">
-        nuxt-element-admin
+        nuxt-admin-template
       </h1>
       <h2 class="subtitle">
         My peachy Nuxt.js project
