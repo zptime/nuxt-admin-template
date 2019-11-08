@@ -1,4 +1,4 @@
-import { getToken } from '../plugins/utils.js'
+import { getToken, setToken } from '../plugins/utils.js'
 import { login } from '../server/api'
 
 export const state = () => {
@@ -28,8 +28,10 @@ export const actions = {
     return new Promise((resolve, reject) => {
       login({ username, password }).then((response) => {
         const { data } = response
-        // commit('setToken', data.token)
-        // setToken(data.token)
+        if (data.code === 0) {
+          commit('setToken', data.data.token)
+          setToken(data.data.token)
+        }
         resolve(data)
       }).catch((error) => {
         reject(error)

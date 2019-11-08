@@ -1,9 +1,13 @@
 const fs = require('fs')
 const path = require('path')
-const router = require('koa-router')()
+const router = require('koa-router')() // 路由中间件
+const jwt = require('jsonwebtoken') // 用于签发、解析`token`
 
-// 路由前缀
+/* 路由前缀 */
 router.prefix('/api')
+
+/* jwt密钥 */
+const secret = 'secret'
 
 // 用户登录
 router.post('/login', (ctx) => {
@@ -19,7 +23,8 @@ router.post('/login', (ctx) => {
       msg: '用户名或密码错误'
     }
   } else {
-    const token = sign({ username, test: 'testok' }, secret, { expiresIn: '1h' })
+    // jsonwebtoken在服务端生成token返回给客户端
+    const token = jwt.sign({ username, password }, secret, { expiresIn: '2h' })
     ctx.body = {
       code: 0,
       data: {

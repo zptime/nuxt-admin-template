@@ -1,7 +1,10 @@
+import { getToken } from './utils.js'
+
 export default ({ $axios, redirect }) => {
   // 请求拦截器
   $axios.onRequest((config) => {
-    // eslint-disable-next-line no-console
+    const token = getToken()
+    config.headers.Authorization = `Bearer ${token}`
     console.log('Making request to ' + config.url)
     return config
   })
