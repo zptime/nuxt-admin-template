@@ -56,6 +56,7 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie'
 import Logo from './Logo.vue'
 import variables from '@/assets/css/variables.scss'
 export default {
@@ -90,6 +91,16 @@ export default {
     isCollapse () {
       return !this.sidebar.opened
     }
+  },
+  mounted () {
+    /* eslint-disable */
+    console.log(Cookies.get("sidebarStatus"))
+    console.log(+Cookies.get('sidebarStatus'))
+    console.log(!+Cookies.get('sidebarStatus'))
+    console.log(!!+Cookies.get('sidebarStatus'))
+    console.log(Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true)
+    console.log(this.$store.state.app.sidebar)
+    console.log(!this.sidebar.opened)
   }
 }
 </script>

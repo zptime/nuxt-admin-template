@@ -1,12 +1,15 @@
 <template>
   <div :class="classObj" class="app-wrapper">
-    <!-- <div v-if="device==='mobile' && sidebar.opened" class="drawer-bg" @click="handleClickOutside" /> -->
+    <!-- mobile模式遮罩 -->
+    <div v-if="device==='mobile' && sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
+    <!-- 侧边栏组件 -->
     <Aside class="sidebar-container" />
+    <!-- 主体内容 -->
     <div class="main-container">
       <div :class="{'fixed-header':fixedHeader}">
+        <!-- 顶栏组件 -->
         <Header />
       </div>
-      <!-- <app-main /> -->
       <nuxt />
     </div>
   </div>
@@ -97,15 +100,15 @@ export default {
     }
   }
 
-  // .drawer-bg {
-  //   background: #000;
-  //   opacity: 0.3;
-  //   width: 100%;
-  //   top: 0;
-  //   height: 100%;
-  //   position: absolute;
-  //   z-index: 999;
-  // }
+  .drawer-bg {
+    background: #000;
+    opacity: 0.3;
+    width: 100%;
+    top: 0;
+    height: 100%;
+    position: absolute;
+    z-index: 999;
+  }
 }
 
 .hideSidebar {

@@ -19,9 +19,12 @@ router.post('/login', (ctx) => {
       msg: '用户名或密码错误'
     }
   } else {
+    const token = sign({ username, test: 'testok' }, secret, { expiresIn: '1h' })
     ctx.body = {
       code: 0,
-      data: null,
+      data: {
+        token
+      },
       msg: '登录成功'
     }
   }
