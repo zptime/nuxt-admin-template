@@ -78,7 +78,7 @@ npm install js-cookie
 - JSON Web Token (JWT)是一个开放标准(RFC 7519)，它定义了一种简洁的、自包含的方法，用于通信双方之间以 JSON 对象的形式安全地传输信息。该信息可以被验证和信任，因为它是数字签名的，JWT 可以使用 HMAC 算法或者是 RSA 的公钥密钥进行签名。
 - koa-jwt 主要作用是控制哪些路由需要 jwt 验证，哪些接口不需要验证
 
-使用 koa-jwt 的大致流程是：
+(1) 使用 koa-jwt 的大致流程是：
 
 1. 用户通过身份验证 API(登录)获取当前用户在有效期内的 token
 2. 需要身份验证的 API 都需要携带此前认证过的 token 发送至服务端
@@ -86,25 +86,21 @@ npm install js-cookie
 
 ![JWT过程演示](https://github.com/zptime/resources/blob/master/images/JWT.png)
 
-koa-jwt 中间件的验证方式有三种：
+(2) koa-jwt 中间件的验证方式有三种：
 
 1. 在请求头中设置 authorization 为 Bearer + token，注意 Bearer 后有空格。（koa-jwt 的默认验证方式 {'authorization': "Bearer " + token}）
 2. 自定义 getToken 方法
 3. 利用 Cookie（此 cookie 非彼 cookie）此处的 Cookie 只作为存储介质发给服务端的区域，校验并不依赖于服务端的 session 机制，服务端不会进行任何状态的保存。
 
-实战逻辑：
+(3) 实战逻辑：
 
 1. 服务端生成 token，在登录路由中进行验证，可携带用户名等必要信息，并将其放至上下文对象中。
-2. 客户端登录成功并获取 token 信息后，将其保存在客户端中。如 localstorage，cookie 等。
-3. 在请求服务器端 API 接口时，需要设置 authorization，把 token 带在请求头中传给服务器进行验证，如下两种方式：
-   (1) 利用 axios 请求拦截器，设置请求头，将 token 放到 headers 中；
-   (2) 利用 koa 的中间件在总路由中进行拦截处理。
 
 ```js
 // 安装依赖包
 npm install jsonwebtoken koa-jwt
 
-// 1.服务端生成token，详见 server/routes/user.js
+// 服务端生成token，详见 server/routes/user.js
 const jwt = require('jsonwebtoken') // 用于签发、解析`token`
 const secret = 'secret' // jwt密钥
 
@@ -122,8 +118,12 @@ router.post('/login', (ctx) => {
     msg: '登录成功'
   }
 })
+```
 
-// 2.客户端存储token信息,详见 store/index.js
+2. 客户端登录成功并获取 token 信息后，将其保存在客户端中。如 localstorage，cookie 等。
+
+```js
+// 客户端存储token信息,详见 store/index.js
 login ({ commit }, userInfo) {
   const { username, password } = userInfo
   return new Promise((resolve, reject) => {
@@ -137,8 +137,13 @@ login ({ commit }, userInfo) {
     })
   })
 }
+```
 
-// 3.请求验证
+3. 在请求服务器端 API 接口时，需要设置 authorization，把 token 带在请求头中传给服务器进行验证，如下两种方式：
+   (1) 利用 axios 请求拦截器，设置请求头，将 token 放到 headers 中；
+   (2) 利用 koa 的中间件在总路由中进行拦截处理。
+
+```js
 // a. axios请求拦截器，详见 plugin/axios.js
 $axios.onRequest((config) => {
   const token = getToken()
@@ -154,8 +159,12 @@ app.use(async (ctx, next) => {
     ctx.request.header = {'authorization': "Bearer " + (params.token || '')}
     await next();
 })
+```
 
-// 4.利用koa-jwt设置需要验证才能访问的接口，验证成功后可在上下文中的state中获取状态信息。
+4. koa-jwt 验证
+
+```js
+// 利用koa-jwt设置需要验证才能访问的接口，验证成功后可在上下文中的state中获取状态信息。
 const { sign } = require('jsonwebtoken');
 const secret = 'demo';
 const jwt = require('koa-jwt')({secret});
@@ -165,7 +174,7 @@ router.get('/userinfo', jwt, async (ctx, next) => {
 })
 
 
-// 5.koa-jwt主要作用是控制哪些路由需要jwt验证，哪些接口不需要验证：
+// koa-jwt主要作用是控制哪些路由需要jwt验证，哪些接口不需要验证：
 import  *  as  koaJwt  from  'koa-jwt';
 
 //路由权限控制 除了path里的路径不需要验证token 其他都要
@@ -254,7 +263,7 @@ async function check(ctx, next) {
   // 登录 不用检查
   if (url == "/users/login") await next();
   else {
-      // 规定token写在header 的 'autohrization' 
+      // 规定token写在header 的 'autohrization'
     let token = ctx.request.headers["authorization"];
     // 解码
     let payload = await verify(token,secret);
