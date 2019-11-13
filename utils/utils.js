@@ -1,7 +1,10 @@
 import Cookies from 'js-cookie'
 
-const TokenKey = 'koa_admin_template_token'
-const TokenExp = 'token_exp'
+const TokenKey = 'koa_token' // token
+const TokenExp = 'token_exp' // 存储当前时间
+const Secret = 'secret' // jwt密钥
+
+export { Secret }
 
 export function getToken () {
   // localStorage.getItem(TokenKey)

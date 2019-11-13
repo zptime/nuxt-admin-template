@@ -1,5 +1,5 @@
-import { getToken, setToken } from '../plugins/utils.js'
-import { login } from '../server/api'
+import { login } from '@/server/api'
+import { getToken, setToken } from '~/utils/utils.js'
 
 export const state = () => {
   return {

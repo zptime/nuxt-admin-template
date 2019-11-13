@@ -1,7 +1,7 @@
 # nuxt-admin-template
 
 > 基于 Nuxt.js 服务渲染框架搭建的后台管理系统，UI 框架选择的是[Element UI](https://element.eleme.cn/#/zh-CN)
-
+>
 > 该后台管理系统只是一个极简的后台基础模板，只实现了用户登录和权限验证等功能。
 
 ## 参考文档
@@ -58,7 +58,7 @@ module.exports = {
   - components/common/Aside.vue：侧边栏组件
     - components/common/Logo.vue：Logo 组件
   - plugins/resizeHandler.js：移动端、PC 端适应配置
-  - 问题：computed 阶段：Cookies.get('sidebarStatus')一直为 undefined。<br>
+  - 问题：computed 阶段：Cookies.get('sidebarStatus')一直为 undefined。
     原因：computed 阶段，document 对象不存在；mounted 阶段，可获取到 cookied 值。
 - pages/login/index.vue 页面：登录页面
 
@@ -73,28 +73,29 @@ npm install js-cookie
 
 ### token 认证
 
-- token 认证的优点是无状态机制，在此基础之上，可以实现天然的跨域和前后端分离等。
-- token 认证的缺点是服务器每次都需要对其进行验证，会产生额外的运行压力。此外，无状态的 api 缺乏对用户流程或异常的控制，为了避免一些例如回放攻击的异常情况，大多会设置较短的过期时间。
-- JSON Web Token (JWT)是一个开放标准(RFC 7519)，它定义了一种简洁的、自包含的方法，用于通信双方之间以 JSON 对象的形式安全地传输信息。该信息可以被验证和信任，因为它是数字签名的，JWT 可以使用 HMAC 算法或者是 RSA 的公钥密钥进行签名。
-- koa-jwt 主要作用是控制哪些路由需要 jwt 验证，哪些接口不需要验证
+> token是一个令牌，浏览器第一次访问服务端时会签发一张令牌，之后浏览器每次携带这张令牌访问服务端就会认证该令牌是否有效，只要服务端可以解密该令牌，就说明请求是合法的，令牌中包含的用户信息还可以区分不同身份的用户。一般token由用户信息、时间戳和由hash算法加密的签名构成。
 
-(1) 使用 koa-jwt 的大致流程是：
+#### token认证流程
 
-1. 用户通过身份验证 API(登录)获取当前用户在有效期内的 token
-2. 需要身份验证的 API 都需要携带此前认证过的 token 发送至服务端
-3. koa 会利用 koa-jwt 中间件的默认验证方式进行身份验证，中间件会进行验证成功和验证失败的分流。
+1. 客户端使用用户名跟密码请求登录
+2. 服务端收到请求，去验证用户名与密码
+3. 验证成功后，服务端会签发一个 Token，再把这个 Token 发送给客户端
+4. 客户端收到 Token 以后可以把它存储起来，比如放在 Cookie 里或者 Local Storage 里
+5. 客户端每次向服务端请求资源的时候需要带着服务端签发的 Token
+6. 服务端收到请求，然后去验证客户端请求里面带着的 Token（request头部添加Authorization），如果验证成功，就向客户端返回请求的数据，如果不成功返回401错误码，鉴权失败。
 
-![JWT过程演示](https://github.com/zptime/resources/blob/master/images/JWT.png)
+#### token认证优缺点
 
-(2) koa-jwt 中间件的验证方式有三种：
+1. token 认证的优点是无状态机制，在此基础之上，可以实现天然的跨域和前后端分离等。
+2. token 认证的缺点是服务器每次都需要对其进行验证，会产生额外的运行压力。此外，无状态的 api 缺乏对用户流程或异常的控制，为了避免一些例如回放攻击的异常情况，大多会设置较短的过期时间。
 
-1. 在请求头中设置 authorization 为 Bearer + token，注意 Bearer 后有空格。（koa-jwt 的默认验证方式 {'authorization': "Bearer " + token}）
-2. 自定义 getToken 方法
-3. 利用 Cookie（此 cookie 非彼 cookie）此处的 Cookie 只作为存储介质发给服务端的区域，校验并不依赖于服务端的 session 机制，服务端不会进行任何状态的保存。
+#### JSON Web Token (JWT)
 
-(3) 实战逻辑：
+> JWT是一个开放标准(RFC 7519)，它定义了一种简洁的、自包含的方法，用于通信双方之间以 JSON 对象的形式安全地传输信息。该信息可以被验证和信任，因为它是数字签名的，JWT 可以使用 HMAC 算法或者是 RSA 的公钥密钥进行签名。
 
-1. 服务端生成 token，在登录路由中进行验证，可携带用户名等必要信息，并将其放至上下文对象中。
+实战逻辑：
+
+- 服务端生成 token，在登录路由中进行验证，可携带用户名等必要信息，并将其放至上下文对象中。
 
 ```js
 // 安装依赖包
@@ -120,7 +121,7 @@ router.post('/login', (ctx) => {
 })
 ```
 
-2. 客户端登录成功并获取 token 信息后，将其保存在客户端中。如 localstorage，cookie 等。
+- 客户端登录成功并获取 token 信息后，将其保存在客户端中。如 localstorage，cookie 等。
 
 ```js
 // 客户端存储token信息,详见 store/index.js
@@ -139,77 +140,96 @@ login ({ commit }, userInfo) {
 }
 ```
 
-3. 在请求服务器端 API 接口时，需要设置 authorization，把 token 带在请求头中传给服务器进行验证，如下两种方式：
+- 在请求服务器端 API 接口时，需要设置 authorization，把 token 带在请求头中传给服务器进行验证，如下两种方式：本项目采用的是第一种方式
+
    (1) 利用 axios 请求拦截器，设置请求头，将 token 放到 headers 中；
+
    (2) 利用 koa 的中间件在总路由中进行拦截处理。
 
 ```js
 // a. axios请求拦截器，详见 plugin/axios.js
-$axios.onRequest((config) => {
-  const token = getToken()
-  config.headers.common.Authorization = 'Bearer ' + token
-  return config
-})
+$axios.onRequest(config => {
+  const token = getToken();
+  config.headers.common.Authorization = "Bearer " + token;
+  return config;
+});
 
 // b. koa中间件拦截，放在 server/index.js
-app.use(bodyParser())
+app.use(bodyParser());
 app.use(async (ctx, next) => {
-    console.log(ctx)
-    let params =Object.assign({}, ctx.request.query, ctx.request.body);
-    ctx.request.header = {'authorization': "Bearer " + (params.token || '')}
-    await next();
-})
+  console.log(ctx);
+  let params = Object.assign({}, ctx.request.query, ctx.request.body);
+  ctx.request.header = { authorization: "Bearer " + (params.token || "") };
+  await next();
+});
 ```
 
-4. koa-jwt 验证
+### koa-jwt 主要作用是控制哪些路由需要 jwt 验证，哪些接口不需要验证
+
+![JWT过程演示](https://github.com/zptime/resources/blob/master/images/JWT.png)
+
+- koa-jwt 中间件的验证方式有三种：
+
+1. 在请求头中设置 authorization 为 Bearer + token，注意 Bearer 后有空格。（koa-jwt 的默认验证方式 {'authorization': "Bearer " + token}）
+2. 自定义 getToken 方法
+3. 利用 Cookie（此 cookie 非彼 cookie）此处的 Cookie 只作为存储介质发给服务端的区域，校验并不依赖于服务端的 session 机制，服务端不会进行任何状态的保存。
 
 ```js
-// 利用koa-jwt设置需要验证才能访问的接口，验证成功后可在上下文中的state中获取状态信息。
-const { sign } = require('jsonwebtoken');
-const secret = 'demo';
-const jwt = require('koa-jwt')({secret});
-router.get('/userinfo', jwt, async (ctx, next) => {
-    ctx.body = {username: ctx.state.user.username}
-    console.log(ctx)
-})
+// server/index.js
+const koaJwt = require("koa-jwt"); // 用于路由权限控制
+// 错误处理：当token验证异常时的处理，如token过期、token错误
+app.use((ctx, next) => {
+  return next().catch(err => {
+    if (err.status === 401) {
+      ctx.status = 401;
+      ctx.body = {
+        code: 20001,
+        msg: err.originalError ? err.originalError.message : err.message
+      };
+    } else {
+      throw err;
+    }
+  });
+});
 
-
-// koa-jwt主要作用是控制哪些路由需要jwt验证，哪些接口不需要验证：
-import  *  as  koaJwt  from  'koa-jwt';
-
-//路由权限控制 除了path里的路径不需要验证token 其他都要
+// 路由权限控制：控制哪些路由需要jwt验证，哪些接口不需要验证。除了path里的路径不需要验证token，其他都要。
 app.use(
-    koaJwt({
-        secret:  secret.sign
-    }).unless({
-        path: [/^\/login/, /^\/register/]
-    })
+  koaJwt({
+    secret: "secret"
+  }).unless({
+    path: [/^\/login/, /^\/register/]
+  })
 );
+```
 
-// 6.服务端处理前端发送过来的Token
-前端发送请求携带token，后端需要判断以下几点：
-token是否正确，不正确则返回错误
-token是否过期，过期则刷新token 或返回401表示需要从新登录
-关于上面两点，需要在后端写一个中间件来完成：
+- 服务端处理前端发送过来的 Token
+
+前端发送请求携带 token，后端需要判断以下几点：
+
+- token 是否正确，不正确则返回错误
+- token 是否过期，过期则刷新 token 或返回 401 表示需要重新登录
+
+```js
+// 服务端验证
 app.use((ctx, next) => {
   if (ctx.header && ctx.header.authorization) {
-    const parts = ctx.header.authorization.split(' ');
+    const parts = ctx.header.authorization.split(" ");
     if (parts.length === 2) {
-      //取出token
+      // 取出token
       const scheme = parts[0];
       const token = parts[1];
 
       if (/^Bearer$/i.test(scheme)) {
         try {
-          //jwt.verify方法验证token是否有效
-          jwt.verify(token, secret.sign, {
+          // jwt.verify方法验证token是否有效
+          jwt.verify(token, "secret", {
             complete: true
           });
         } catch (error) {
-          //token过期 生成新的token
-          const newToken = getToken(user);
-          //将新token放入Authorization中返回给前端
-          ctx.res.setHeader('Authorization', newToken);
+          // token过期 生成新的token
+          const newToken = getToken();
+          // 将新token放入Authorization中返回给前端
+          ctx.res.setHeader("Authorization", newToken);
         }
       }
     }
@@ -218,84 +238,27 @@ app.use((ctx, next) => {
   return next().catch(err => {
     if (err.status === 401) {
       ctx.status = 401;
-      ctx.body =
-        'Protected resource, use Authorization header to get access\n';
+      ctx.body = "Protected resource, use Authorization header to get access\n";
     } else {
       throw err;
-    }});
- });
-
-// 7.后端刷新token 前端需要更新token
-后端更换新token后，前端也需要获取新token 这样请求才不会报错。
-由于后端更新的token是在响应头里，所以前端需要在响应拦截器中获取新token。
-依然以axios为例：
-
-//响应拦截器
-axios.interceptors.response.use(function(response) {
-    //获取更新的token
-    const { authorization } = response.headers;
-    //如果token存在则存在localStorage
-    authorization && localStorage.setItem('tokenName', authorization);
-    return response;
-  },
-  function(error) {
-    if (error.response) {
-      const { status } = error.response;
-      //如果401或405则到登录页
-      if (status == 401 || status == 405) {
-        history.push('/login');
-      }
     }
-    return Promise.reject(error);
-  }
-);
-
-// 8.check中间件
-check中间件
-根据koa洋葱式的中间件机制，我们可以写个检查token的中间件，我们干的事情就是拿到客户端传来的token，解码后取出重要信息，检查
-const Promise = require("bluebird");
-const jwt = require("jsonwebtoken");
-const verify = Promise.promisify(jwt.verify);
-let { secret } = require("../util/secret");
-
-async function check(ctx, next) {
-  let url = ctx.request.url;
-  // 登录 不用检查
-  if (url == "/users/login") await next();
-  else {
-      // 规定token写在header 的 'autohrization'
-    let token = ctx.request.headers["authorization"];
-    // 解码
-    let payload = await verify(token,secret);
-    let { time, timeout } = payload;
-    let data = new Date().getTime();
-    if (data - time <= timeout) {
-        // 未过期
-      await next();
-    } else {
-        //过期
-      ctx.body = {
-        status: 50014，
-        message:'token 已过期'
-      };
-    }
-  }
-}
-
-module.exports = check
-复制代码加入中间件即可
-const check = require('./utils/check')
-app.use(check)
-
-作者：Webwwl
-链接：https://juejin.im/post/5ae8827b6fb9a07a9d702077
-来源：掘金
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
-
-// 9.https://github.com/lin-xin/blog/issues/28
-
+  });
+});
 ```
 
-### cookie 认证
+- 后端刷新 token，前端需要更新 token：后端更新的 token 是在响应头里，所以前端需要在响应拦截器中获取新 token。
+
+```js
+// 响应拦截器
+$axios.onResponse(resp => {
+  // 获取更新的token
+  const { authorization } = resp.headers;
+  // 如果token存在，则存在cookie中
+  authorization && setToken(authorization);
+  return Promise.resolve(resp.data);
+});
+```
 
 ## 路由鉴权
+
+https://juejin.im/post/5cdb83fe51882569223af7ae

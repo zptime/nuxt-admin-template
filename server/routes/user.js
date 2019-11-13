@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const router = require('koa-router')() // 路由中间件
 const jwt = require('jsonwebtoken') // 用于签发、解析`token`
+const koaJwt = require('koa-jwt') // 用于路由权限控制
 
 /* 路由前缀 */
 router.prefix('/api')
@@ -18,13 +19,17 @@ router.post('/login', (ctx) => {
   })
   if (!valid || valid.length === 0) {
     ctx.body = {
-      code: -1,
+      code: 10001,
       data: null,
       msg: '用户名或密码错误'
     }
   } else {
     // jsonwebtoken在服务端生成token返回给客户端
-    const token = jwt.sign({ username, password }, secret, { expiresIn: '2h' })
+    const token = jwt.sign({
+      username,
+      // 设置 token 过期时间，一小时后，秒为单位
+      exp: Math.floor(Date.now() / 1000) + 60 * 60
+    }, secret)
     ctx.body = {
       code: 0,
       data: {
@@ -44,8 +49,13 @@ router.post('/logout', (ctx) => {
   }
 })
 
+// koaJwt这个中间件会拿着密钥解析JWT是否合法。并且把JWT中的payload的信息解析后放到state中，ctx.state用于中间件的传值。
 // GET /api/users 获取所有用户列表
-router.get('/users', (ctx) => {
+router.get('/users', koaJwt({
+  secret
+}), (ctx) => {
+  // 验证通过，state.user
+  console.log(ctx.state.user)
   const data = fs.readFileSync(path.join(__dirname, '../mock/', 'user.json'), 'utf8')
   ctx.body = {
     code: 0,
