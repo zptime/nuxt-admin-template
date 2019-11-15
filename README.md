@@ -262,3 +262,43 @@ $axios.onResponse(resp => {
 ## 路由鉴权
 
 https://juejin.im/post/5cdb83fe51882569223af7ae
+
+## 错误解决
+
+### nuxt.config.js
+
+- 使用 import 引入文件报错：import routes from './utils/routes' SyntaxError: Unexpected identifier
+
+  解决import和export不能用的问题：node版本9以上就已经支持了，但是需要把文件名改成*.mjs,并且加上--experimental-modules 选项。
+
+- 模块导入导出有哪些方式:
+  - 模块导入方式有：require、import、import xxx from yyy、import {xx} from yyy
+  - 模块导出方式有：exports、module.exports、export、export.default
+- 使用规则和范围:
+  - 模块导入方面
+    - require: node和ES6都支持的模块导入方式
+    - import和import xxx from yyy和import {xx} from yyy：只有ES6支持
+  - 模块导出方面
+    - module.exports/exports: node本身支持的模块导出方式
+    - export/import: 只有ES6支持的模块导出方式
+- CommonJS规范(node中模块的导入导出)
+  - 由于之前js没有很统一比较混乱，代码按照各自的喜好写并没有一个模块的概念，而这个规范说白了就是对模块的定义:
+  - CommonJS定义模块分为：模块标识(module)、模块定义(exports)、模块引用(require)
+
+```js
+// 错误写法
+import routes from './utils/routes'
+
+export default (routes, resolve) => {
+  routes = iterator(routes, menus)
+  console.log(routes)
+}
+
+// 正确写法
+const routes = require('./utils/routes.js')
+
+module.exports = (routes, resolve) => {
+  routes = iterator(routes, menus)
+  console.log(routes)
+}
+```

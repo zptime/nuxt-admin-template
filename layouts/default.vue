@@ -19,6 +19,7 @@
 import Header from '~/components/common/Header.vue'
 import Aside from '~/components/common/Aside.vue'
 import ResizeMixin from '~/plugins/resizeHandler.js'
+import { getToken } from '~/utils/utils.js'
 export default {
   components: {
     Header,
@@ -44,11 +45,13 @@ export default {
       }
     }
   },
-  mounted () {
-    console.log(this.sidebar)
-    console.log(this.device)
-    console.log(this.fixedHeader)
-    console.log(this.classObj)
+  created () {
+    const token = getToken()
+    if (!token) {
+      this.$router.push({
+        path: '/login'
+      })
+    }
   },
   methods: {
     handleClickOutside () {

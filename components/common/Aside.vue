@@ -3,7 +3,7 @@
     <logo v-if="showLogo" :collapse="isCollapse" />
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
-        default-active="1-2"
+        default-active="2-2"
         mode="vertical"
         :collapse="isCollapse"
         :background-color="variables.menuBg"
@@ -12,56 +12,20 @@
         :unique-opened="false"
         :collapse-transition="false"
       >
-        <el-submenu index="1">
-          <template slot="title">
-            <i class="el-icon-location" />
-            <span slot="title">导航一</span>
-          </template>
-          <el-menu-item-group>
-            <span slot="title">分组一</span>
-            <el-menu-item index="1-1">
-              选项1
-            </el-menu-item>
-            <el-menu-item index="1-2">
-              选项2
-            </el-menu-item>
-          </el-menu-item-group>
-          <el-menu-item-group title="分组2">
-            <el-menu-item index="1-3">
-              选项3
-            </el-menu-item>
-          </el-menu-item-group>
-          <el-submenu index="1-4">
-            <span slot="title">选项4</span>
-            <el-menu-item index="1-4-1">
-              选项1
-            </el-menu-item>
-          </el-submenu>
-        </el-submenu>
-        <el-menu-item index="2">
-          <i class="el-icon-menu" />
-          <span slot="title">导航二</span>
-        </el-menu-item>
-        <el-menu-item index="3" disabled>
-          <i class="el-icon-document" />
-          <span slot="title">导航三</span>
-        </el-menu-item>
-        <el-menu-item index="4">
-          <i class="el-icon-setting" />
-          <span slot="title">导航四</span>
-        </el-menu-item>
+        <aside-item v-for="route in routes" :key="route.path" :item="route" :base-path="route.path" />
       </el-menu>
     </el-scrollbar>
   </div>
 </template>
 
 <script>
-import Cookies from 'js-cookie'
-import Logo from './Logo.vue'
+import Logo from '~/components/common/Logo.vue'
+import AsideItem from '~/components/common/AsideItem.vue'
 import variables from '@/assets/css/variables.scss'
 export default {
   components: {
-    Logo
+    Logo,
+    AsideItem
   },
   data () {
     return {}
@@ -70,9 +34,9 @@ export default {
     sidebar () {
       return this.$store.state.app.sidebar
     },
-    // routes() {
-    //   return this.$router.options.routes
-    // },
+    routes () {
+      return this.$router.options.routes
+    },
     // activeMenu() {
     //   const route = this.$route
     //   const { meta, path } = route
@@ -93,14 +57,7 @@ export default {
     }
   },
   mounted () {
-    /* eslint-disable */
-    console.log(Cookies.get("sidebarStatus"))
-    console.log(+Cookies.get('sidebarStatus'))
-    console.log(!+Cookies.get('sidebarStatus'))
-    console.log(!!+Cookies.get('sidebarStatus'))
-    console.log(Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true)
-    console.log(this.$store.state.app.sidebar)
-    console.log(!this.sidebar.opened)
+    console.log(this.routes)
   }
 }
 </script>

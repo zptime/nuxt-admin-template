@@ -1,6 +1,17 @@
 
+const routes = require('./utils/routes.js')
+
 module.exports = {
   mode: 'universal',
+  server: {
+    port: 8010, // default: 3000
+    host: '0.0.0.0' // default: localhost
+  },
+  router: { // 中间件允许定义一个自定义函数运行在一个页面或一组页面渲染之前。
+    middleware: ['authorities'],
+    extendRoutes: routes
+  },
+
   head: {
     title: process.env.npm_package_name || '',
     meta: [
@@ -26,7 +37,8 @@ module.exports = {
   },
   plugins: [
     '@/plugins/element-ui',
-    { src: '~plugins/axios', ssr: true }
+    { src: '~plugins/axios', ssr: true },
+    { src: '~plugins/auth', ssr: false }
   ],
   buildModules: [
     '@nuxtjs/eslint-module'
@@ -55,13 +67,13 @@ module.exports = {
           loader: 'eslint-loader',
           exclude: /(node_modules)/,
           options: {
-            // fix: true
+            fix: true
           }
         })
       }
     }
   },
-  router: {
-    middleware: ['auth']
+  render: {
+    resourceHints: false // 禁用预加载渲染，解决多项目加载不相干js问题
   }
 }

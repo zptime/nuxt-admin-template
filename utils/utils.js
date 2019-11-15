@@ -1,39 +1,31 @@
 import Cookies from 'js-cookie'
 
 const TokenKey = 'koa_token' // token
-const TokenExp = 'token_exp' // 存储当前时间
 const Secret = 'secret' // jwt密钥
 
-export { Secret }
+export { Secret, TokenKey }
 
+// 获取客户端cookie
 export function getToken () {
-  // localStorage.getItem(TokenKey)
+  // window.localStorage.getItem(TokenKey)
   return Cookies.get(TokenKey)
 }
 
 export function setToken (token) {
-  // localStorage.setItem(TokenKey, res.data)
-  // localStorage.setItem(TokenExp, new Date().getTime())
-  // 存储当前时间，可以判断 token 是否存在，也可以判断当前 token 是否过期，如果过期，则跳登录页面
-  Cookies.set(TokenExp, new Date().getTime())
-  return Cookies.set(TokenKey, token)
+  // window.localStorage.setItem(TokenKey, token)
+  Cookies.set(TokenKey, token)
 }
 
 export function removeToken () {
-  return Cookies.remove(TokenKey)
+  // window.localStorage.removeItem(TokenKey)
+  Cookies.remove(TokenKey)
 }
 
-// 获取服务端cookie
-export function getcookiesInServer (req) {
-  const serviceCookie = {}
-  req && req.headers.cookie && req.headers.cookie.split(';').forEach(function (val) {
-    const parts = val.split('=')
-    serviceCookie[parts[0].trim()] = (parts[1] || '').trim()
-  })
+// 获取服务端token
+export function getTokenInServer (req) {
+  let serviceCookie = ''
+  if (req && req.ctx && req.ctx.cookies) {
+    serviceCookie = req.ctx.cookies.get('koa_token')
+  }
   return serviceCookie
-}
-
-// 获取客户端cookie
-export function getcookiesInClient (key) {
-  return Cookies.get(key) ? Cookies.get(key) : ''
 }

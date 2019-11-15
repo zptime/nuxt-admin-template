@@ -5,20 +5,18 @@
       <i class="el-icon-caret-bottom" />
     </div>
     <el-dropdown-menu slot="dropdown">
-      <el-dropdown-item icon="el-icon-plus">
-        黄金糕
+      <router-link to="/">
+        <el-dropdown-item icon="el-icon-s-home">
+          Home
+        </el-dropdown-item>
+      </router-link>
+      <el-dropdown-item icon="el-icon-s-promotion">
+        <el-link target="_blank" href="https://github.com/zptime/nuxt-admin-template" :underline="false">
+          Github
+        </el-link>
       </el-dropdown-item>
-      <el-dropdown-item icon="el-icon-circle-plus">
-        狮子头
-      </el-dropdown-item>
-      <el-dropdown-item icon="el-icon-circle-plus-outline">
-        螺蛳粉
-      </el-dropdown-item>
-      <el-dropdown-item icon="el-icon-check">
-        双皮奶
-      </el-dropdown-item>
-      <el-dropdown-item icon="el-icon-circle-check">
-        蚵仔煎
+      <el-dropdown-item divided icon="el-icon-s-finance" @click.native="logout()">
+        Log Out
       </el-dropdown-item>
     </el-dropdown-menu>
   </el-dropdown>
@@ -28,6 +26,12 @@
 export default {
   data () {
     return {}
+  },
+  methods: {
+    async logout () {
+      await this.$store.dispatch('logout')
+      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+    }
   }
 }
 </script>

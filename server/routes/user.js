@@ -49,7 +49,7 @@ router.post('/logout', (ctx) => {
   }
 })
 
-// koaJwt这个中间件会拿着密钥解析JWT是否合法。并且把JWT中的payload的信息解析后放到state中，ctx.state用于中间件的传值。
+// koaJwt中间件会拿着密钥解析JWT是否合法。并且把JWT中的payload的信息解析后放到state中，ctx.state用于中间件的传值。
 // GET /api/users 获取所有用户列表
 router.get('/users', koaJwt({
   secret

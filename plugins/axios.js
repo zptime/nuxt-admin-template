@@ -30,9 +30,9 @@ export default ({ $axios, redirect }) => {
     if (code === 500) {
       redirect('/500')
     }
-    if (code === 10002) { // token 异常
-      redirect('/login')
-    }
+    // if (code === 10002) { // token 异常
+    //   redirect('/login')
+    // }
     // 请求不会就此结束，会继续传到then中，即无论请求成功还是失败，在成功的回调中都能收到通知
     return Promise.resolve(error)
   })

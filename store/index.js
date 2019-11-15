@@ -1,5 +1,5 @@
-import { login } from '@/server/api'
-import { getToken, setToken } from '~/utils/utils.js'
+import { login, logout } from '@/server/api'
+import { getToken, setToken, removeToken } from '~/utils/utils.js'
 
 export const state = () => {
   return {
@@ -36,6 +36,28 @@ export const actions = {
       }).catch((error) => {
         reject(error)
       })
+    })
+  },
+
+  // user logout
+  logout ({ commit }) {
+    return new Promise((resolve, reject) => {
+      logout().then(() => {
+        commit('setToken', '')
+        removeToken()
+        resolve()
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  },
+
+  // remove token
+  resetToken ({ commit }) {
+    return new Promise((resolve) => {
+      commit('setToken', '')
+      removeToken()
+      resolve()
     })
   }
 }
