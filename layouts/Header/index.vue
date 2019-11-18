@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import Breadcrumb from '~/components/common/Breadcrumb.vue'
-import Dropdown from '~/components/common/Dropdown.vue'
+import Breadcrumb from './Breadcrumb.vue'
+import Dropdown from './Dropdown.vue'
 export default {
   components: {
     Breadcrumb,

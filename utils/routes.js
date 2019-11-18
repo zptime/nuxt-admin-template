@@ -11,51 +11,57 @@
  */
 const menus = [
   {
-    path: '/',
     name: 'index',
-    meta: { hidden: true, requireAuth: true }
+    path: '/'
   },
   {
-    path: '/404',
     name: '404',
+    path: '/404',
     meta: { requireAuth: false }
   },
   {
-    path: '/500',
     name: '500',
+    path: '/500',
     meta: { requireAuth: false }
   },
   {
-    path: '/restful',
-    name: 'restful'
-  },
-  {
-    path: '/login',
-    name: 'login',
-    meta: { requireAuth: false }
-  },
-  {
-    path: '/info',
     name: 'info',
+    path: '/info',
     meta: { title: '个人中心', icon: 'el-icon-user', hidden: false }
   },
   {
-    path: '/log',
     name: 'log',
-    meta: { title: '变更日志', icon: 'el-icon-document', hidden: false }
+    path: '/log',
+    meta: { title: '变更日志', icon: 'el-icon-info', hidden: false }
   },
   {
-    path: '/system/user',
-    name: 'system-user',
-    meta: { title: '用户管理', icon: 'el-icon-document', hidden: false }
-  }, {
-    path: '/system/role',
-    name: 'system-role',
-    meta: { title: '角色管理', icon: 'el-icon-document', hidden: false }
-  }, {
-    path: '/system/auth',
-    name: 'system-auth',
-    meta: { title: '权限管理', icon: 'el-icon-document', hidden: false }
+    name: 'login',
+    path: '/login',
+    meta: { requireAuth: false }
+  },
+  {
+    name: 'restful',
+    path: '/restful'
+  },
+  {
+    name: 'system',
+    path: '/system',
+    meta: { title: '系统管理', icon: 'el-icon-setting', hidden: false },
+    children: [
+      {
+        name: 'system-user',
+        path: '/system/user',
+        meta: { title: '用户管理', icon: 'el-icon-document', hidden: false }
+      }, {
+        name: 'system-role',
+        path: '/system/role',
+        meta: { title: '角色管理', icon: 'el-icon-document', hidden: false }
+      }, {
+        name: 'system-auth',
+        path: '/system/auth',
+        meta: { title: '权限管理', icon: 'el-icon-document', hidden: false }
+      }
+    ]
   }
 ];
 
@@ -72,10 +78,10 @@ const iterator = (list, menus) => {
   for (const item in list) {
     for (const m in menus) {
       if ((list[item].name === menus[m].name) && (list[item].path === menus[m].path)) {
-        list[item].meta = Object.assign(menus[m].meta || {}, defaultMeta)
-        if ('meta' in menus[m] && 'requireAuth' in menus[m].meta && menus[m].meta.requireAuth) {
-          list[item].meta.requireAuth = true
-        }
+        list[item].meta = Object.assign({}, defaultMeta, menus[m].meta || {})
+        // if ('meta' in menus[m] && 'requireAuth' in menus[m].meta && menus[m].meta.requireAuth) {
+        //   list[item].meta.requireAuth = true
+        // }
         if (list[item].children && list[item].children.length > 0) {
           iterator(list[item].children, menus[m].children)
         }

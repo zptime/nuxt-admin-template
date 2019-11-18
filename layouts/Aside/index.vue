@@ -19,8 +19,8 @@
 </template>
 
 <script>
-import Logo from '~/components/common/Logo.vue'
-import AsideItem from '~/components/common/AsideItem.vue'
+import Logo from './Logo.vue'
+import AsideItem from './AsideItem.vue'
 import variables from '@/assets/css/variables.scss'
 export default {
   components: {

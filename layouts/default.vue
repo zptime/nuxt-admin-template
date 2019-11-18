@@ -16,8 +16,8 @@
 </template>
 
 <script>
-import Header from '~/components/common/Header.vue'
-import Aside from '~/components/common/Aside.vue'
+import Header from './Header/index.vue'
+import Aside from './Aside/index.vue'
 import ResizeMixin from '~/plugins/resizeHandler.js'
 import { getToken } from '~/utils/utils.js'
 export default {
