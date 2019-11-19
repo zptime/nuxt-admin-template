@@ -12,7 +12,8 @@
 const menus = [
   {
     name: 'index',
-    path: '/'
+    path: '/',
+    meta: { title: '首页' }
   },
   {
     name: '404',
@@ -25,16 +26,6 @@ const menus = [
     meta: { requireAuth: false }
   },
   {
-    name: 'info',
-    path: '/info',
-    meta: { title: '个人中心', icon: 'el-icon-user', hidden: false }
-  },
-  {
-    name: 'log',
-    path: '/log',
-    meta: { title: '变更日志', icon: 'el-icon-info', hidden: false }
-  },
-  {
     name: 'login',
     path: '/login',
     meta: { requireAuth: false }
@@ -44,22 +35,32 @@ const menus = [
     path: '/restful'
   },
   {
+    name: 'center',
+    path: '/center',
+    meta: { title: '个人中心', icon: 'el-icon-user', hidden: false }
+  },
+  {
+    name: 'log',
+    path: '/log',
+    meta: { title: '变更日志', icon: 'el-icon-info', hidden: false }
+  },
+  {
     name: 'system',
     path: '/system',
     meta: { title: '系统管理', icon: 'el-icon-setting', hidden: false },
     children: [
       {
         name: 'system-user',
-        path: '/system/user',
-        meta: { title: '用户管理', icon: 'el-icon-document', hidden: false }
+        path: 'user',
+        meta: { title: '用户管理', icon: 'el-icon-headset', hidden: false }
       }, {
         name: 'system-role',
-        path: '/system/role',
-        meta: { title: '角色管理', icon: 'el-icon-document', hidden: false }
+        path: 'role',
+        meta: { title: '角色管理', icon: 'el-icon-monitor', hidden: false }
       }, {
         name: 'system-auth',
-        path: '/system/auth',
-        meta: { title: '权限管理', icon: 'el-icon-document', hidden: false }
+        path: 'auth',
+        meta: { title: '权限管理', icon: 'el-icon-data-line', hidden: false }
       }
     ]
   }
@@ -93,5 +94,5 @@ const iterator = (list, menus) => {
 
 module.exports = (routes, resolve) => {
   routes = iterator(routes, menus)
-  console.log(routes)
+  // console.log(routes)
 }

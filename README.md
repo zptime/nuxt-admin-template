@@ -261,7 +261,7 @@ $axios.onResponse(resp => {
 
 ## 路由鉴权
 
-https://juejin.im/post/5cdb83fe51882569223af7ae
+[https://juejin.im/post/5cdb83fe51882569223af7ae](https://juejin.im/post/5cdb83fe51882569223af7ae)
 
 ## 错误解决
 
@@ -305,7 +305,7 @@ module.exports = (routes, resolve) => {
 
 ## nuxtjs 自定义路由实现及路由权限拦截配置
 
-(1) Nuxt简单介绍及搭建过程：http://blog.liuxiuqian.com/bloginfo/26
-(2) 是否能加一个可以设置自动生成路由树的“meta”对象的一个方法：https://github.com/nuxt/nuxt.js/issues/4749
-(3) nuxtjs如何通过路由meta信息控制路由查看权限：https://www.cnblogs.com/goloving/p/11730607.html
-(4) fix(config) : fix `extendRoutes` method type： https://github.com/nuxt/nuxt.js/pull/5841
+(1) Nuxt简单介绍及搭建过程：[http://blog.liuxiuqian.com/bloginfo/26](http://blog.liuxiuqian.com/bloginfo/26)
+(2) 是否能加一个可以设置自动生成路由树的“meta”对象的一个方法：[https://github.com/nuxt/nuxt.js/issues/4749](https://github.com/nuxt/nuxt.js/issues/4749)
+(3) nuxtjs如何通过路由meta信息控制路由查看权限：[https://www.cnblogs.com/goloving/p/11730607.html](https://github.com/nuxt/nuxt.js/issues/4749)
+(4) fix(config) : fix `extendRoutes` method type： [https://github.com/nuxt/nuxt.js/pull/5841](https://github.com/nuxt/nuxt.js/pull/5841)
