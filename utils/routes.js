@@ -80,9 +80,6 @@ const iterator = (list, menus) => {
     for (const m in menus) {
       if ((list[item].name === menus[m].name) && (list[item].path === menus[m].path)) {
         list[item].meta = Object.assign({}, defaultMeta, menus[m].meta || {})
-        // if ('meta' in menus[m] && 'requireAuth' in menus[m].meta && menus[m].meta.requireAuth) {
-        //   list[item].meta.requireAuth = true
-        // }
         if (list[item].children && list[item].children.length > 0) {
           iterator(list[item].children, menus[m].children)
         }

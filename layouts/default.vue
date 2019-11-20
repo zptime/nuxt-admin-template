@@ -19,7 +19,6 @@
 import Header from './Header/index.vue'
 import Aside from './Aside/index.vue'
 import ResizeMixin from '~/plugins/resizeHandler.js'
-import { getToken } from '~/utils/utils.js'
 export default {
   components: {
     Header,
@@ -43,14 +42,6 @@ export default {
         withoutAnimation: this.sidebar.withoutAnimation,
         mobile: this.device === 'mobile'
       }
-    }
-  },
-  created () {
-    const token = getToken()
-    if (!token) {
-      this.$router.push({
-        path: '/login'
-      })
     }
   },
   methods: {

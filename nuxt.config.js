@@ -37,8 +37,7 @@ module.exports = {
   },
   plugins: [
     '@/plugins/element-ui',
-    { src: '~plugins/axios', ssr: true },
-    { src: '~plugins/auth', ssr: false }
+    { src: '~plugins/axios', ssr: true }
   ],
   buildModules: [
     '@nuxtjs/eslint-module'

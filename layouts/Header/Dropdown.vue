@@ -10,6 +10,16 @@
           Home
         </el-dropdown-item>
       </router-link>
+      <router-link to="/404">
+        <el-dropdown-item icon="el-icon-s-home">
+          404
+        </el-dropdown-item>
+      </router-link>
+      <router-link to="/500">
+        <el-dropdown-item icon="el-icon-s-home">
+          500
+        </el-dropdown-item>
+      </router-link>
       <el-dropdown-item icon="el-icon-s-promotion">
         <el-link target="_blank" href="https://github.com/zptime/nuxt-admin-template" :underline="false">
           Github
