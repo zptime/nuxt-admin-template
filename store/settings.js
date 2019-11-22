@@ -1,8 +1,12 @@
+/**
+ * @description: 页面整体结构配置
+ * @param {*} fixedHeader 是否固定Header头部组件，true：固定，不随页面滚动；false：不固定
+ * @param {*} sidebarLogo 是否在Aside侧栏组件中显示Logo组件
+ */
 export const state = () => {
   return {
-    showSettings: true,
-    fixedHeader: true, // 是否固定Header头部组件
-    sidebarLogo: true // 是否在Aside侧栏组件显示Logo
+    fixedHeader: true,
+    sidebarLogo: false
   }
 }
 export const mutations = {

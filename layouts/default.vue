@@ -1,7 +1,7 @@
 <template>
   <div :class="classObj" class="app-wrapper">
     <!-- mobile模式遮罩 -->
-    <div v-if="device==='mobile' && sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
+    <div v-if="isMobile && sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
     <!-- 侧边栏组件 -->
     <Aside class="sidebar-container" />
     <!-- 主体内容 -->
@@ -18,7 +18,7 @@
 <script>
 import Header from './Header/index.vue'
 import Aside from './Aside/index.vue'
-import ResizeMixin from '~/plugins/resizeHandler.js'
+import ResizeMixin from '~/utils/resizeHandler.js'
 export default {
   components: {
     Header,
@@ -26,21 +26,21 @@ export default {
   },
   mixins: [ResizeMixin],
   computed: {
-    sidebar () {
-      return this.$store.state.app.sidebar
-    },
-    device () {
-      return this.$store.state.app.device
-    },
     fixedHeader () {
       return this.$store.state.settings.fixedHeader
+    },
+    isMobile () {
+      return this.$store.state.app.isMobile
+    },
+    sidebar () {
+      return this.$store.state.app.sidebar
     },
     classObj () {
       return {
         hideSidebar: !this.sidebar.opened,
         openSidebar: this.sidebar.opened,
         withoutAnimation: this.sidebar.withoutAnimation,
-        mobile: this.device === 'mobile'
+        mobile: this.isMobile
       }
     }
   },
@@ -60,6 +60,7 @@ export default {
   position: relative;
   height: 100%;
   width: 100%;
+  overflow-y: auto;
   &.mobile.openSidebar{
     position: fixed;
     top: 0;

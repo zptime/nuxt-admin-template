@@ -43,7 +43,7 @@ export default {
       if (!name) {
         return false
       }
-      return name.trim().toLocaleLowerCase() === '首页'.toLocaleLowerCase()
+      return name.trim() === '首页'
     }
   }
 }

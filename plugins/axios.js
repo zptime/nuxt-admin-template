@@ -1,6 +1,10 @@
 import { getToken, setToken } from '~/utils/utils.js'
 
 export default ({ $axios, redirect }) => {
+  // 基本配置
+  $axios.defaults.timeout = 10000
+  $axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
+
   // 请求拦截器
   $axios.onRequest((config) => {
     const token = getToken()
@@ -9,7 +13,7 @@ export default ({ $axios, redirect }) => {
       config.headers.common.Authorization = `Bearer ${token}`
       // config.headers.Authorization = `Bearer ${token}`
     }
-    console.log('Making request to ' + config.url)
+    // console.log('Making request to ' + config.url)
     return config
   })
 

@@ -27,24 +27,12 @@ export default {
     Logo,
     AsideItem
   },
-  data () {
-    return {}
-  },
   computed: {
     sidebar () {
       return this.$store.state.app.sidebar
     },
-    routes () {
-      return this.$router.options.routes
-    },
-    activeMenu () {
-      const route = this.$route
-      const { meta, path } = route
-      // if set path, the sidebar will highlight the path you set
-      if (meta.activeMenu) {
-        return meta.activeMenu
-      }
-      return path
+    isCollapse () {
+      return !this.sidebar.opened
     },
     showLogo () {
       return this.$store.state.settings.sidebarLogo
@@ -52,12 +40,18 @@ export default {
     variables () {
       return variables
     },
-    isCollapse () {
-      return !this.sidebar.opened
+    routes () {
+      return this.$router.options.routes
+    },
+    activeMenu () {
+      const route = this.$route
+      const { meta, path } = route
+      // 选中高亮实现
+      if (meta.activeMenu) {
+        return meta.activeMenu
+      }
+      return path
     }
-  },
-  mounted () {
-    console.log(this.routes)
   }
 }
 </script>

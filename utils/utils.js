@@ -29,3 +29,13 @@ export function getTokenInServer (req) {
   }
   return serviceCookie
 }
+
+// 从本地缓存取值，如cookies
+export function getLocalCache (name) {
+  return Cookies.get(name)
+}
+
+// 本地缓存设置值，如cookies
+export function setLocalCache (name, value) {
+  return Cookies.set(name, value)
+}

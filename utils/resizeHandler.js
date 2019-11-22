@@ -2,8 +2,8 @@ const WIDTH = 992 // refer to Bootstrap's responsive design
 
 export default {
   watch: {
-    $route (route) {
-      if (this.device === 'mobile' && this.sidebar.opened) {
+    $route (route) { // 切换路由时触发
+      if (this.isMobile && this.sidebar.opened) {
         this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
       }
     }
@@ -15,11 +15,8 @@ export default {
     window.removeEventListener('resize', this.$_resizeHandler)
   },
   mounted () {
-    const isMobile = this.$_isMobile()
-    if (isMobile) {
-      this.$store.dispatch('app/toggleDevice', 'mobile')
-      this.$store.dispatch('app/closeSideBar', { withoutAnimation: true })
-    }
+    // 刷新页面时触发
+    this.$_toggleMobile()
   },
   methods: {
     // use $_ for mixins properties
@@ -28,14 +25,19 @@ export default {
       const rect = document.body.getBoundingClientRect()
       return rect.width - 1 < WIDTH
     },
-    $_resizeHandler () {
+    $_resizeHandler () { // 移动端和PC端模式切换时触发
       if (!document.hidden) {
-        const isMobile = this.$_isMobile()
-        this.$store.dispatch('app/toggleDevice', isMobile ? 'mobile' : 'desktop')
+        this.$_toggleMobile()
+      }
+    },
+    $_toggleMobile () {
+      const isMobile = this.$_isMobile()
+      this.$store.dispatch('app/toggleMobile', isMobile)
 
-        if (isMobile) {
-          this.$store.dispatch('app/closeSideBar', { withoutAnimation: true })
-        }
+      if (isMobile) {
+        this.$store.dispatch('app/closeSideBar', { withoutAnimation: true })
+      } else {
+        this.$store.dispatch('app/setSideBar')
       }
     }
   }

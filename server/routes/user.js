@@ -55,7 +55,7 @@ router.get('/users', koaJwt({
   secret
 }), (ctx) => {
   // 验证通过，state.user
-  console.log(ctx.state.user)
+  // console.log(ctx.state.user)
   const data = fs.readFileSync(path.join(__dirname, '../mock/', 'user.json'), 'utf8')
   ctx.body = {
     code: 0,
