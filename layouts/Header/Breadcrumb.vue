@@ -43,7 +43,7 @@ export default {
       if (!name) {
         return false
       }
-      return name.trim() === '首页'
+      return name.trim() === 'index'
     }
   }
 }

@@ -493,3 +493,5 @@ beforeMount () {
 ![问题控制台展示](https://github.com/zptime/resources/blob/master/images/nuxt-aside-problem-1.png)
 ![问题页面展示](https://github.com/zptime/resources/blob/master/images/nuxt-aside-problem-2.png)
 ![服务端终端展示](https://github.com/zptime/resources/blob/master/images/nuxt-aside-problem-3.png)
+
+[nodejs实战](https://juejin.im/post/5c1f8e52f265da6170071e43#heading-18)
