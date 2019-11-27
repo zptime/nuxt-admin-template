@@ -9,6 +9,16 @@
 - 基于 Nuxt.js 服务渲染框架的后台管理系统：[https://github.com/JanesChan/Vue-admin](https://github.com/JanesChan/Vue-admin)
 - vue-element-admin：[https://panjiachen.github.io/vue-element-admin-site/zh/guide/](https://panjiachen.github.io/vue-element-admin-site/zh/guide/) -->
 
+## PC端效果展示
+
+![PC端主页](https://github.com/zptime/resources/blob/master/images/nuxt-admin-template/PC.png)
+
+## 移动端效果展示
+
+![移动端登录页](https://github.com/zptime/resources/blob/master/images/nuxt-admin-template/mobile-login.png)
+![移动端首页](https://github.com/zptime/resources/blob/master/images/nuxt-admin-template/mobile-role.png)
+![移动端侧栏](https://github.com/zptime/resources/blob/master/images/nuxt-admin-template/mobile-aside.png)
+
 ## 前期准备
 
 > 项目搭建参考另一篇文章：[nuxt-koa-mongodb](https://github.com/zptime/nuxt-koa-mongodb)
@@ -60,8 +70,8 @@ module.exports = {
     - layouts/Aside/AsideItem.vue：侧栏元组件
     - layouts/Aside/Logo.vue：Logo 组件
   - plugins/resizeHandler.js：移动端、PC 端适应配置
-  - 问题：computed 阶段：Cookies.get('sidebarStatus')一直为 undefined。
-    原因：computed 阶段，document 对象不存在；mounted 阶段，可获取到 cookied 值。
+  <!-- - 问题：computed 阶段：Cookies.get('sidebarStatus')一直为 undefined。
+    原因：computed 阶段，document 对象不存在；mounted 阶段，可获取到 cookied 值。 -->
 - middleware：中间件
   - authorities.js：路由鉴权
 - pages：页面，根据该目录下的 vue 文件自动生成对应的路由配置
@@ -184,7 +194,7 @@ app.use(async (ctx, next) => {
 
 #### koa-jwt 主要作用是控制哪些路由需要 jwt 验证，哪些接口不需要验证
 
-![JWT过程演示](https://github.com/zptime/resources/blob/master/images/JWT.png)
+![JWT过程演示](https://github.com/zptime/resources/blob/master/images/nuxt-admin-template/JWT.png)
 
 - 1.koa-jwt 中间件的验证方式有三种：
 
@@ -423,8 +433,8 @@ export default {
 ```
 
 测试结果：左侧为服务端终端打印日志，右侧为浏览器控制端打印日志。
-![服务端日志](https://github.com/zptime/resources/blob/master/images/aside-server-console.png)
-![客户端日志](https://github.com/zptime/resources/blob/master/images/aside-client-console.png)
+![服务端日志](https://github.com/zptime/resources/blob/master/images/nuxt-admin-template/aside-server-console.png)
+![客户端日志](https://github.com/zptime/resources/blob/master/images/nuxt-admin-template/aside-client-console.png)
 
 测试结论如下：
 
@@ -490,8 +500,6 @@ beforeMount () {
   - 经排查，是AsideItem组件引起的报错
   - 原因：上述步骤，beforeMount阶段改变了store的值，导致服务端和客户端computed阶段获取的值不匹配。
 
-![问题控制台展示](https://github.com/zptime/resources/blob/master/images/nuxt-aside-problem-1.png)
-![问题页面展示](https://github.com/zptime/resources/blob/master/images/nuxt-aside-problem-2.png)
-![服务端终端展示](https://github.com/zptime/resources/blob/master/images/nuxt-aside-problem-3.png)
-
-[nodejs实战](https://juejin.im/post/5c1f8e52f265da6170071e43#heading-18)
+![问题控制台展示](https://github.com/zptime/resources/blob/master/images/nuxt-admin-template/nuxt-aside-problem-1.png)
+![问题页面展示](https://github.com/zptime/resources/blob/master/images/nuxt-admin-template/nuxt-aside-problem-2.png)
+![服务端终端展示](https://github.com/zptime/resources/blob/master/images/nuxt-admin-template/nuxt-aside-problem-3.png)

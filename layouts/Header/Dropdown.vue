@@ -1,7 +1,7 @@
 <template>
   <el-dropdown class="avatar-container" trigger="click">
     <div class="avatar-wrapper">
-      <img src="/images/avatar.gif" class="user-avatar">
+      <img src="/images/avatar.jpg" class="user-avatar">
       <i class="el-icon-caret-bottom" />
     </div>
     <el-dropdown-menu slot="dropdown">
@@ -11,12 +11,12 @@
         </el-dropdown-item>
       </router-link>
       <router-link to="/404">
-        <el-dropdown-item icon="el-icon-s-home">
+        <el-dropdown-item icon="el-icon-error">
           404
         </el-dropdown-item>
       </router-link>
       <router-link to="/500">
-        <el-dropdown-item icon="el-icon-s-home">
+        <el-dropdown-item icon="el-icon-question">
           500
         </el-dropdown-item>
       </router-link>
