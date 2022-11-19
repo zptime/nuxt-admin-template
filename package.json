@@ -24,7 +24,7 @@
     "koa-json": "^2.0.2",
     "koa-jwt": "^3.6.0",
     "koa-router": "^7.4.0",
-    "nuxt": "^2.0.0"
+    "nuxt": "^2.15.8"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^1.0.1",
